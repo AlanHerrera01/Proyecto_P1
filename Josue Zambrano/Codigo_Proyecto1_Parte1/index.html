@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API PIC</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="./styles/dashboard.css">
+</head>
+<body>
+    <h1>PROYECTO DE API CLIMATICA PIC</h1>
+    <div id="result">Dashboard</div>
+    <div id="main-layout">
+        <nav-sidebar></nav-sidebar>
+        <div class="main-content">
+        <air-quality-dashboard></air-quality-dashboard>
+        <air-quality-chart></air-quality-chart>
+        </div>
+    </div>
+    <script type="module" src="./scripts/components/AirQualityChart.js"></script>
+    <script type="module" src="./scripts/components/AirQualityDashboard.js"></script>
+    <script type="module" src="./scripts/components/NavSidebar.js"></script>
+    <script type="module" src="./scripts/api/airQualityService.js"></script>
+
+</body>
+</html>

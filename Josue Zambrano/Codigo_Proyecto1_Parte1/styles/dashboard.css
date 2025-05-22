@@ -1,0 +1,47 @@
+/* Layout principal */
+#main-layout {
+  display: flex;
+  min-height: 90vh;
+  background: #f5f7fa;
+}
+
+/* Barra lateral */
+nav-sidebar {
+  flex-shrink: 0;
+  width: 260px;
+  min-height: 100vh;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+  background: #1976d2;
+  z-index: 2;
+}
+
+/* Contenido principal */
+.main-content {
+  flex: 1;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-width: 0;
+}
+
+/* Dashboard y Chart */
+air-quality-dashboard, air-quality-chart {
+  display: block;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Título principal */
+body > h1 {
+  margin: 24px 0 0 24px;
+  font-size: 2.2rem;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #222;
+}
+
+/* Oculta el div de resultado si no lo usas */
+#result {
+  display: none;
+}
