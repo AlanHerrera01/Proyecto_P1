@@ -1,9 +1,14 @@
 class MainMenu extends HTMLElement {
   constructor() {
     super();
-    const shadow = this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: 'open' });
+  }
 
-    // Estilos
+  connectedCallback() {
+    // Limpiar shadowRoot si se vuelve a conectar
+    this.shadowRoot.innerHTML = '';
+
+    // Estilos llamativos con gradiente y neumorfismo
     const style = document.createElement('style');
     style.textContent = `
       :host {
@@ -14,9 +19,9 @@ class MainMenu extends HTMLElement {
       .background {
         min-height: 100vh;
         width: 100vw;
-        background: linear-gradient(120deg, #232946 70%, #b8c1ec 100%);
-        background-size: 1200% 1200%;
-        animation: moveGradient 18s ease infinite;
+        background: linear-gradient(120deg, #232946 60%, #b8c1ec 100%);
+        background-size: 200% 200%;
+        animation: moveGradient 12s ease-in-out infinite;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -29,15 +34,16 @@ class MainMenu extends HTMLElement {
       }
       nav {
         width: 100%;
-        background: #121629;
+        background: rgba(35,41,70,0.95);
         display: flex;
         justify-content: center;
         gap: 2rem;
         padding: 1.2rem 0;
-        box-shadow: 0 2px 12px #0003;
+        box-shadow: 0 4px 24px #23294633, 0 1.5px 0 #fff2;
         position: sticky;
         top: 0;
         z-index: 10;
+        border-radius: 0 0 24px 24px;
       }
       nav a {
         color: #eebf63;
@@ -45,20 +51,25 @@ class MainMenu extends HTMLElement {
         font-weight: bold;
         font-size: 1.13rem;
         letter-spacing: 0.5px;
-        transition: color 0.3s, background 0.2s, transform 0.2s;
+        transition: color 0.3s, background 0.2s, box-shadow 0.2s, transform 0.2s;
         cursor: pointer;
-        padding: 0.4rem 1.2rem;
-        border-radius: 8px;
+        padding: 0.5rem 1.4rem;
+        border-radius: 12px;
+        background: #232946;
+        box-shadow: 4px 4px 12px #23294622, -4px -4px 12px #b8c1ec22;
+        border: none;
+        outline: none;
       }
-      nav a:hover {
+      nav a:hover, nav a:focus {
         color: #232946;
         background: #eebf63;
-        transform: scale(1.07);
+        box-shadow: 0 2px 12px #eebf6344;
+        transform: scale(1.08);
       }
       .container {
-        background: rgba(35,41,70,0.98);
-        border-radius: 18px;
-        box-shadow: 0 8px 32px 0 rgba(44, 62, 80, 0.25);
+        background: rgba(255,255,255,0.12);
+        border-radius: 24px;
+        box-shadow: 8px 8px 32px 0 #23294633, -8px -8px 32px 0 #b8c1ec33;
         padding: 2.5rem 2rem 2rem 2rem;
         margin: 2.5rem 0 0 0;
         max-width: 720px;
@@ -70,12 +81,13 @@ class MainMenu extends HTMLElement {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        backdrop-filter: blur(6px);
       }
       .project-title {
         font-size: 2.7rem;
         font-weight: bold;
         color: #eebf63;
-        text-shadow: 0 2px 8px #0007, 0 1px 0 #fff2;
+        text-shadow: 0 2px 8px #23294677, 0 1px 0 #fff2;
         margin-bottom: 0.3rem;
         letter-spacing: 1.5px;
       }
@@ -86,23 +98,23 @@ class MainMenu extends HTMLElement {
         font-style: italic;
       }
       .integrantes {
-        background: #121629;
+        background: #232946;
         border-left: 5px solid #eebf63;
-        border-radius: 8px;
+        border-radius: 12px;
         padding: 0.8rem 1.2rem;
         margin-bottom: 1.3rem;
         font-size: 1.08rem;
         color: #eaeaea;
-        box-shadow: 0 2px 8px #0002;
+        box-shadow: 0 2px 8px #23294622;
       }
       .explicacion {
         background: linear-gradient(90deg, #232946 60%, #b8c1ec22 100%);
-        border-radius: 10px;
+        border-radius: 12px;
         padding: 1.1rem 1.2rem;
         font-size: 1.13rem;
         color: #eebf63;
         margin-bottom: 1.7rem;
-        box-shadow: 0 2px 8px #0002;
+        box-shadow: 0 2px 8px #b8c1ec22;
         border-left: 4px solid #b8c1ec;
       }
       @media (max-width: 700px) {
@@ -114,6 +126,7 @@ class MainMenu extends HTMLElement {
           flex-direction: column;
           gap: 0.8rem;
           padding: 0.7rem 0;
+          border-radius: 0 0 18px 18px;
         }
       }
     `;
@@ -121,21 +134,20 @@ class MainMenu extends HTMLElement {
     // Estructura principal
     const background = document.createElement('div');
     background.classList.add('background');
-
     background.appendChild(this.navComponent());
     background.appendChild(this.containerComponent());
 
-    shadow.appendChild(style);
-    shadow.appendChild(background);
+    this.shadowRoot.appendChild(style);
+    this.shadowRoot.appendChild(background);
   }
 
   navComponent() {
     const nav = document.createElement('nav');
     const links = [
       { href: '#inicio', text: 'Inicio' },
-      { href: '#acerca', text: 'Parte II' },
-      { href: '#educate', text: 'Parte III' },
-      { href: '#login', text: 'Educate' }
+      { href: '#acerca', text: 'Acerca de' },
+      { href: '#educate', text: 'Educate' },
+      { href: '#login', text: 'Login/Logout' }
     ];
     links.forEach(link => {
       const a = document.createElement('a');
@@ -145,7 +157,6 @@ class MainMenu extends HTMLElement {
     });
     return nav;
   }
-
 
   titleComponent() {
     const title = document.createElement('div');
