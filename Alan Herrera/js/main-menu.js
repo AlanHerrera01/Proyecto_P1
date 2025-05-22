@@ -5,140 +5,121 @@ class MainMenu extends HTMLElement {
   }
 
   connectedCallback() {
-    // Limpiar shadowRoot si se vuelve a conectar
-    this.shadowRoot.innerHTML = '';
+    this.shadowRoot.innerHTML = `
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      
+      <style>
+        :host {
+          --primary-color: #546E7A;
+          --accent-color: #78909C;
+          --text-color: #37474F;
+          --bg-light: #ECEFF1;
+          --highlight: #90A4AE;
+        }
+        
+        .custom-background {
+          min-height: 100vh;
+          background: linear-gradient(135deg, var(--bg-light) 0%, #CFD8DC 100%);
+          font-family: 'Roboto', sans-serif;
+        }
+        
+        .custom-nav {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+        
+        .nav-link {
+          color: var(--text-color) !important;
+          font-weight: 500;
+          padding: 0.8rem 1.5rem !important;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+          background: var(--accent-color);
+          color: white !important;
+          transform: translateY(-2px);
+        }
+        
+        .content-card {
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 16px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+          backdrop-filter: blur(8px);
+          border: none;
+        }
+        
+        .title-text {
+          color: var(--primary-color);
+          font-weight: 700;
+        }
+        
+        .subtitle-text {
+          color: var(--accent-color);
+        }
+        
+        .info-box {
+          background: var(--bg-light);
+          border-left: 4px solid var(--accent-color);
+          border-radius: 8px;
+        }
+      </style>
 
-    // Estilos llamativos con gradiente y neumorfismo
-    const style = document.createElement('style');
-    style.textContent = `
-      :host {
-        min-height: 100vh;
-        width: 100vw;
-        display: block;
-      }
-      .background {
-        min-height: 100vh;
-        width: 100vw;
-        background: linear-gradient(120deg, #232946 60%, #b8c1ec 100%);
-        background-size: 200% 200%;
-        animation: moveGradient 12s ease-in-out infinite;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-      }
-      @keyframes moveGradient {
-        0% {background-position: 0% 50%;}
-        50% {background-position: 100% 50%;}
-        100% {background-position: 0% 50%;}
-      }
-      nav {
-        width: 100%;
-        background: rgba(35,41,70,0.95);
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        padding: 1.2rem 0;
-        box-shadow: 0 4px 24px #23294633, 0 1.5px 0 #fff2;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        border-radius: 0 0 24px 24px;
-      }
-      nav a {
-        color: #eebf63;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 1.13rem;
-        letter-spacing: 0.5px;
-        transition: color 0.3s, background 0.2s, box-shadow 0.2s, transform 0.2s;
-        cursor: pointer;
-        padding: 0.5rem 1.4rem;
-        border-radius: 12px;
-        background: #232946;
-        box-shadow: 4px 4px 12px #23294622, -4px -4px 12px #b8c1ec22;
-        border: none;
-        outline: none;
-      }
-      nav a:hover, nav a:focus {
-        color: #232946;
-        background: #eebf63;
-        box-shadow: 0 2px 12px #eebf6344;
-        transform: scale(1.08);
-      }
-      .container {
-        background: rgba(255,255,255,0.12);
-        border-radius: 24px;
-        box-shadow: 8px 8px 32px 0 #23294633, -8px -8px 32px 0 #b8c1ec33;
-        padding: 2.5rem 2rem 2rem 2rem;
-        margin: 2.5rem 0 0 0;
-        max-width: 720px;
-        width: 95vw;
-        font-family: 'Merriweather', 'Georgia', serif;
-        color: #eaeaea;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        backdrop-filter: blur(6px);
-      }
-      .project-title {
-        font-size: 2.7rem;
-        font-weight: bold;
-        color: #eebf63;
-        text-shadow: 0 2px 8px #23294677, 0 1px 0 #fff2;
-        margin-bottom: 0.3rem;
-        letter-spacing: 1.5px;
-      }
-      .subtitle {
-        font-size: 1.2rem;
-        color: #b8c1ec;
-        margin-bottom: 1.1rem;
-        font-style: italic;
-      }
-      .integrantes {
-        background: #232946;
-        border-left: 5px solid #eebf63;
-        border-radius: 12px;
-        padding: 0.8rem 1.2rem;
-        margin-bottom: 1.3rem;
-        font-size: 1.08rem;
-        color: #eaeaea;
-        box-shadow: 0 2px 8px #23294622;
-      }
-      .explicacion {
-        background: linear-gradient(90deg, #232946 60%, #b8c1ec22 100%);
-        border-radius: 12px;
-        padding: 1.1rem 1.2rem;
-        font-size: 1.13rem;
-        color: #eebf63;
-        margin-bottom: 1.7rem;
-        box-shadow: 0 2px 8px #b8c1ec22;
-        border-left: 4px solid #b8c1ec;
-      }
-      @media (max-width: 700px) {
-        .container {
-          padding: 1.2rem 0.5rem;
-          margin-top: 1.2rem;
-        }
-        nav {
-          flex-direction: column;
-          gap: 0.8rem;
-          padding: 0.7rem 0;
-          border-radius: 0 0 18px 18px;
-        }
-      }
+      <div class="custom-background">
+        <nav class="navbar navbar-expand-lg custom-nav sticky-top">
+          <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+              <ul class="navbar-nav gap-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="#inicio">Inicio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#acerca">Acerca de</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#educate">Educate</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#login">Login/Logout</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container py-5">
+          <div class="content-card p-5">
+            <h1 class="display-4 title-text mb-3">Proyecto Integrador</h1>
+            <h3 class="subtitle-text mb-4 fw-light">
+              Materia: 21602 - Program Integrativa de Compone
+            </h3>
+            
+            <div class="info-box p-3 mb-4">
+              <strong>Integrantes:</strong> Josue Zambrano, Cesar Arico, Alan Herrera
+            </div>
+            
+            <div class="info-box p-4">
+              <p class="lead text-secondary">
+                Plataforma educativa interactiva basada en <b>Web Components</b> para la materia 
+                <b>21602 - Program Integrativa de Compone</b>.<br><br>
+                El objetivo es fomentar el aprendizaje colaborativo y el acceso a recursos académicos, 
+                integrando módulos informativos, ejercicios y autenticación personalizada.<br><br>
+                Inspirado en el ambiente universitario y el desarrollo web moderno, este proyecto 
+                simula una experiencia de aula digital, promoviendo el desarrollo de competencias 
+                y el trabajo en equipo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     `;
-
-    // Estructura principal
-    const background = document.createElement('div');
-    background.classList.add('background');
-    background.appendChild(this.navComponent());
-    background.appendChild(this.containerComponent());
-
-    this.shadowRoot.appendChild(style);
-    this.shadowRoot.appendChild(background);
   }
 
   navComponent() {

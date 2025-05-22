@@ -2,6 +2,10 @@ class EducateSection extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    this.initializeData();
+  }
+
+  initializeData() {
     this.content = [
       {
         titulo: "¿Qué es el PM2.5?",
@@ -64,127 +68,299 @@ class EducateSection extends HTMLElement {
         description: "Monitoreo individual de calidad del aire"
       }
     ];
+
+    this.expandedInfo = [
+      {
+        titulo: "Datos importantes sobre PM2.5",
+        texto: "Las partículas PM2.5 son 30 veces más delgadas que un cabello humano. En ciudades altamente contaminadas, respirar el aire durante un día equivale a fumar 25 cigarrillos. Los niveles seguros según la OMS son de 10 µg/m³ como promedio anual.",
+        img: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=500&q=80",
+        alt: "Visualización de partículas PM2.5"
+      },
+      {
+        titulo: "Prevención y Control",
+        texto: "Los sistemas de filtración HEPA pueden eliminar hasta el 99.97% de las partículas PM2.5. Las plantas como la Hiedra común y el Aloe Vera ayudan a purificar el aire interior. Se recomienda mantener niveles de humedad entre 30-50% para reducir las partículas suspendidas.",
+        img: "https://images.unsplash.com/photo-1527195575508-5b138d14a35b?auto=format&fit=crop&w=500&q=80",
+        alt: "Sistemas de purificación"
+      }
+    ];
   }
 
   connectedCallback() {
     this.render();
+    this.setupEventListeners();
+  }
+
+  getStyles() {
+    return `
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <style>
+        :host {
+          --primary-color: #546E7A;
+          --accent-color: #78909C;
+          --text-color: #37474F;
+          --bg-light: #ECEFF1;
+          --highlight: #90A4AE;
+        }
+        
+        /* Base Styles */
+        .custom-background {
+          min-height: 100vh;
+          background: linear-gradient(135deg, var(--bg-light) 0%, #CFD8DC 100%);
+          font-family: 'Roboto', sans-serif;
+          padding: 2rem 0;
+        }
+        
+        /* Card Styles */
+        .content-card {
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 16px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+          backdrop-filter: blur(8px);
+          border: none;
+          padding: 1.5rem;
+          margin-bottom: 2rem;
+        }
+
+        .card {
+          background: white !important;
+          border: none !important;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+          transition: transform 0.3s ease;
+        }
+
+        /* Interactive Elements */
+        .card:hover {
+          transform: translateY(-5px);
+        }
+
+        .btn-custom {
+          background: var(--accent-color);
+          color: white;
+          border: none;
+          padding: 0.8rem 2rem;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+          background: var(--primary-color);
+          transform: translateY(-2px);
+          color: white;
+        }
+
+        /* Typography */
+        .card-title {
+          color: var(--primary-color) !important;
+          font-weight: 600;
+        }
+
+        .card-text {
+          color: var(--text-color) !important;
+        }
+
+        .section-title {
+          color: var(--primary-color);
+          font-weight: 700;
+          margin-bottom: 2rem;
+        }
+
+        /* Images */
+        img {
+          border-radius: 12px;
+          object-fit: cover;
+        }
+
+        /* Footer Styles */
+        .footer {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(8px);
+          padding: 3rem 0;
+          margin-top: 4rem;
+          box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+          border-radius: 16px 16px 0 0;
+        }
+
+        .team-member {
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+
+        .team-member img {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          margin-bottom: 1rem;
+          transition: transform 0.3s ease;
+        }
+
+        .team-member img:hover {
+          transform: scale(1.05);
+        }
+
+        .copyright {
+          text-align: center;
+          color: var(--text-color);
+          padding-top: 2rem;
+          border-top: 1px solid var(--bg-light);
+          margin-top: 2rem;
+        }
+      </style>
+    `;
+  }
+
+  renderMainContent() {
+    return `
+      <section class="content-card">
+        <div class="row g-4">
+          ${this.content.map(item => this.renderContentCard(item)).join('')}
+        </div>
+      </section>
+    `;
+  }
+
+  renderContentCard(item) {
+    return `
+      <article class="col-12 col-md-6">
+        <div class="card h-100">
+          <div class="row g-0">
+            <div class="col-4">
+              <img src="${item.img}" alt="${item.alt}" class="img-fluid h-100">
+            </div>
+            <div class="col-8">
+              <div class="card-body">
+                <h2 class="card-title h5">${item.titulo}</h2>
+                <p class="card-text">${item.texto}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  renderGallery() {
+    return `
+      <section class="content-card">
+        <h2 class="section-title text-center">Galería de Soluciones</h2>
+        <div class="row g-4">
+          ${this.gallery.map(item => this.renderGalleryItem(item)).join('')}
+        </div>
+      </section>
+    `;
+  }
+
+  renderGalleryItem(item) {
+    return `
+      <div class="col-12 col-md-4">
+        <div class="card h-100">
+          <img src="${item.img}" alt="${item.title}" class="card-img-top">
+          <div class="card-body">
+            <h3 class="card-title h5">${item.title}</h3>
+            <p class="card-text">${item.description}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  renderExpandedInfo() {
+    return `
+      <div class="expanded-info collapse">
+        <div class="content-card">
+          <div class="row g-4">
+            ${this.expandedInfo.map(item => this.renderExpandedItem(item)).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  renderExpandedItem(item) {
+    return `
+      <div class="col-12">
+        <div class="card">
+          <div class="row g-0">
+            <div class="col-md-8">
+              <div class="card-body">
+                <h3 class="card-title">${item.titulo}</h3>
+                <p class="card-text">${item.texto}</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <img src="${item.img}" alt="${item.alt}" class="img-fluid h-100">
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  renderFooter() {
+    return `
+      <footer class="footer">
+        <div class="container">
+          <div class="row mb-5">
+            <div class="col-12">
+              <h2 class="section-title text-center mb-5">Nuestro Equipo</h2>
+            </div>
+            ${this.renderTeamMembers()}
+          </div>
+          <div class="copyright">
+            <p>© ${new Date().getFullYear()} Proyecto Integrador PM2.5. Todos los derechos reservados.</p>
+            <p class="small">Desarrollado por el equipo de la materia 21602 - Program Integrativa de Compone</p>
+          </div>
+        </div>
+      </footer>
+    `;
+  }
+
+  renderTeamMembers() {
+    const team = [
+      { name: 'Josue Zambrano', role: 'Desarrollo Frontend' },
+      { name: 'Cesar Arico', role: 'Desarrollo Backend' },
+      { name: 'Alan Herrera', role: 'Diseño UI/UX' }
+    ];
+
+    return team.map(member => `
+      <div class="col-md-4">
+        <div class="team-member">
+          <img src="https://ui-avatars.com/api/?name=${member.name.replace(' ', '+')}&background=random" 
+               alt="${member.name}">
+          <h4>${member.name}</h4>
+          <p>${member.role}</p>
+        </div>
+      </div>
+    `).join('');
   }
 
   render() {
     this.shadowRoot.innerHTML = `
-      <style>
-        section {
-          padding: 1.5rem 1rem;
-          font-family: 'Merriweather', 'Georgia', serif;
-          background: rgba(35,41,70,0.98);
-          border-radius: 24px;
-          max-width: 750px;
-          margin: 2rem auto;
-          box-shadow: 8px 8px 32px 0 #23294633, -8px -8px 32px 0 #b8c1ec33;
-          color: #eaeaea;
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-        }
-        article {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 1.5rem;
-          background: linear-gradient(90deg, #232946 60%, #b8c1ec22 100%);
-          border-radius: 16px;
-          padding: 1.2rem 1rem;
-          box-shadow: 0 2px 8px #b8c1ec22;
-          border-left: 4px solid #b8c1ec;
-          animation: fadeIn 0.7s ease forwards;
-        }
-        article:nth-child(even) {
-          flex-direction: row-reverse;
-          background: linear-gradient(90deg, #b8c1ec22 0%, #232946 100%);
-          border-left: 4px solid #eebf63;
-        }
-        .img-wrap {
-          flex-shrink: 0;
-          width: 110px;
-          height: 110px;
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 2px 12px #23294644;
-          background: #fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 12px;
-        }
-        h2 {
-          color: #eebf63;
-          margin-bottom: 0.5rem;
-          font-size: 1.3rem;
-        }
-        p {
-          color: #eaeaea;
-          line-height: 1.5;
-          margin-bottom: 0;
-          font-size: 1.08rem;
-        }
-        .info {
-          flex: 1;
-        }
-        @media (max-width: 700px) {
-          section {
-            padding: 1rem 0.3rem;
-            border-radius: 14px;
-          }
-          article, article:nth-child(even) {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.8rem;
-            padding: 1rem 0.5rem;
-          }
-          .img-wrap {
-            width: 100%;
-            height: 160px;
-          }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px);}
-          to { opacity: 1; transform: translateY(0);}
-        }
-      </style>
-      <section>
-        ${this.content.map(item => `
-          <article>
-            <div class="img-wrap">
-              <img src="${item.img}" alt="${item.alt}">
-            </div>
-            <div class="info">
-              <h2>${item.titulo}</h2>
-              <p>${item.texto}</p>
-            </div>
-          </article>
-        `).join('')}
-        
-        <div class="gallery-section">
-          <h2 class="gallery-title">Galería de Soluciones</h2>
-          <div class="gallery-grid">
-            ${this.gallery.map(item => `
-              <div class="gallery-item">
-                <img src="${item.img}" alt="${item.title}">
-                <div class="gallery-info">
-                  <h3>${item.title}</h3>
-                  <p>${item.description}</p>
-                </div>
-              </div>
-            `).join('')}
+      ${this.getStyles()}
+      <div class="custom-background">
+        <div class="container">
+          ${this.renderMainContent()}
+          ${this.renderGallery()}
+          <div class="text-center my-4">
+            <button class="btn btn-custom ver-mas-btn">Ver más información</button>
           </div>
+          ${this.renderExpandedInfo()}
+          ${this.renderFooter()}
         </div>
-      </section>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     `;
+  }
+
+  setupEventListeners() {
+    const verMasBtn = this.shadowRoot.querySelector('.ver-mas-btn');
+    const expandedSection = this.shadowRoot.querySelector('.expanded-info');
+    
+    verMasBtn.addEventListener('click', () => {
+      expandedSection.classList.toggle('show');
+      verMasBtn.textContent = expandedSection.classList.contains('show') 
+        ? 'Ver menos' 
+        : 'Ver más información';
+    });
   }
 }
 
