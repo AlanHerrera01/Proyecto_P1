@@ -1,8 +1,11 @@
+// Archivo comentado automáticamente para documentación del sistema
+
 const API_KEY = '9ef902745a434a82e43a393bc1751a4e';
 
 export class AirQualityService {
     static async fetchCurrentWeather(city = 'London', country = 'uk') {
         try {
+  // Solicitud fetch para obtener datos del servidor
             const response = await fetch(
                 `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
             );
@@ -20,6 +23,7 @@ export class AirQualityService {
 
     static async fetchAirQualityData(lat = 51.5085, lon = -0.1257) {
         try {
+  // Solicitud fetch para obtener datos del servidor
             const response = await fetch(
                 `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
             );

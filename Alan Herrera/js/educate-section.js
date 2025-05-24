@@ -1,11 +1,43 @@
+// Archivo comentado automáticamente para documentación del sistema
+
+// Componente web personalizado para mostrar información educativa sobre PM2.5
+// Definición de clase personalizada
 class EducateSection extends HTMLElement {
+  // Constructor para inicializar propiedades y estado
   constructor() {
     super();
+    // Crea un Shadow DOM para encapsular los estilos y estructura
     this.attachShadow({ mode: 'open' });
+
+
+// Insertamos estilos modernos al componente
+const style = document.createElement('style');
+style.textContent = `
+  :host {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #333;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 1rem;
+  }
+  h2, h3 {
+    color: #1E2A38;
+  }
+  p {
+    color: #555;
+  }
+`;
+this.shadowRoot.appendChild(style);
+
     this.initializeData();
   }
 
+  // Inicializa los datos del componente con información sobre PM2.5
   initializeData() {
+    // Array de objetos con información principal sobre PM2.5
     this.content = [
       {
         titulo: "¿Qué es el PM2.5?",
@@ -51,6 +83,7 @@ class EducateSection extends HTMLElement {
       }
     ];
 
+    // Array de objetos para la galería de soluciones
     this.gallery = [
       {
         img: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b",
@@ -69,6 +102,7 @@ class EducateSection extends HTMLElement {
       }
     ];
 
+    // Array de objetos con información detallada adicional
     this.expandedInfo = [
       {
         titulo: "Datos importantes sobre PM2.5",
@@ -85,11 +119,15 @@ class EducateSection extends HTMLElement {
     ];
   }
 
+  // Se ejecuta cuando el componente es añadido al DOM
+  // Método invocado cuando el componente se inserta en el DOM
   connectedCallback() {
+  // Renderiza el contenido del componente
     this.render();
     this.setupEventListeners();
   }
 
+  // Define los estilos CSS del componente
   getStyles() {
     return `
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -208,6 +246,7 @@ class EducateSection extends HTMLElement {
     `;
   }
 
+  // Renderiza el contenido principal en formato de tarjetas
   renderMainContent() {
     return `
       <section class="content-card">
@@ -218,6 +257,7 @@ class EducateSection extends HTMLElement {
     `;
   }
 
+  // Renderiza cada tarjeta de contenido individual
   renderContentCard(item) {
     return `
       <article class="col-12 col-md-6">
@@ -238,6 +278,7 @@ class EducateSection extends HTMLElement {
     `;
   }
 
+  // Renderiza la sección de galería
   renderGallery() {
     return `
       <section class="content-card">
@@ -249,6 +290,7 @@ class EducateSection extends HTMLElement {
     `;
   }
 
+  // Renderiza cada elemento de la galería
   renderGalleryItem(item) {
     return `
       <div class="col-12 col-md-4">
@@ -263,6 +305,7 @@ class EducateSection extends HTMLElement {
     `;
   }
 
+  // Renderiza la sección de información expandida (oculta por defecto)
   renderExpandedInfo() {
     return `
       <div class="expanded-info collapse">
@@ -275,6 +318,7 @@ class EducateSection extends HTMLElement {
     `;
   }
 
+  // Renderiza cada elemento de la información expandida
   renderExpandedItem(item) {
     return `
       <div class="col-12">
@@ -333,6 +377,7 @@ class EducateSection extends HTMLElement {
     `).join('');
   }
 
+  // Renderiza el contenido del componente
   render() {
     this.shadowRoot.innerHTML = `
       ${this.getStyles()}
@@ -351,10 +396,33 @@ class EducateSection extends HTMLElement {
     `;
   }
 
+  // Método principal de renderizado que combina todos los elementos
+  // Renderiza el contenido del componente
+  render() {
+    this.shadowRoot.innerHTML = `
+      ${this.getStyles()}
+      <div class="custom-background">
+        <div class="container">
+          ${this.renderMainContent()}
+          ${this.renderGallery()}
+          <div class="text-center my-4">
+            <button class="btn btn-custom ver-mas-btn">Ver más información</button>
+          </div>
+          ${this.renderExpandedInfo()}
+          ${this.renderFooter()}
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    `;
+  }
+
+  // Configura los eventos interactivos del componente
   setupEventListeners() {
+    // Maneja el botón "Ver más" para mostrar/ocultar información adicional
     const verMasBtn = this.shadowRoot.querySelector('.ver-mas-btn');
     const expandedSection = this.shadowRoot.querySelector('.expanded-info');
     
+  // Asignación de eventos a elementos DOM
     verMasBtn.addEventListener('click', () => {
       expandedSection.classList.toggle('show');
       verMasBtn.textContent = expandedSection.classList.contains('show') 
@@ -364,4 +432,5 @@ class EducateSection extends HTMLElement {
   }
 }
 
+// Registra el componente web personalizado para su uso en HTML
 window.customElements.define('educate-section', EducateSection);

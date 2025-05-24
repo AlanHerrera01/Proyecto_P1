@@ -1,9 +1,38 @@
+// Archivo comentado automáticamente para documentación del sistema
+
+// Definición de clase personalizada
 class NavSidebar extends HTMLElement {
+  // Constructor para inicializar propiedades y estado
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+
+
+// Insertamos estilos modernos al componente
+const style = document.createElement('style');
+style.textContent = `
+  :host {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #333;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 1rem;
+  }
+  h2, h3 {
+    color: #1E2A38;
+  }
+  p {
+    color: #555;
+  }
+`;
+this.shadowRoot.appendChild(style);
+
     }
 
+  // Renderiza el contenido del componente
     render() {
         this.shadowRoot.innerHTML = `
             <style>
@@ -69,7 +98,9 @@ class NavSidebar extends HTMLElement {
         `;
     }
 
+  // Método invocado cuando el componente se inserta en el DOM
     connectedCallback() {
+  // Renderiza el contenido del componente
         this.render();
     }
 }

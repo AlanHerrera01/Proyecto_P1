@@ -1,7 +1,35 @@
+// Archivo comentado automáticamente para documentación del sistema
+
+// Definición de clase personalizada
 class DataCrud extends HTMLElement {
+  // Constructor para inicializar propiedades y estado
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+
+
+// Insertamos estilos modernos al componente
+const style = document.createElement('style');
+style.textContent = `
+  :host {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #333;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 1rem;
+  }
+  h2, h3 {
+    color: #1E2A38;
+  }
+  p {
+    color: #555;
+  }
+`;
+this.shadowRoot.appendChild(style);
+
         // Cargar datos desde localStorage o usar datos por defecto
         this.recommendations = JSON.parse(localStorage.getItem('recommendations')) || [
             { id: 1, title: 'Usar mascarilla', description: 'En días de alta contaminación' },
@@ -9,11 +37,15 @@ class DataCrud extends HTMLElement {
         ];
     }
 
+  // Método invocado cuando el componente se inserta en el DOM
     connectedCallback() {
+  // Renderiza el contenido del componente
         this.render();
+  // Asignación de eventos a elementos DOM
         this.addEventListeners();
     }
 
+  // Renderiza el contenido del componente
     render() {
         this.shadowRoot.innerHTML = `
             <style>
@@ -123,8 +155,10 @@ class DataCrud extends HTMLElement {
         `;
     }
 
+  // Asignación de eventos a elementos DOM
     addEventListeners() {
         const form = this.shadowRoot.querySelector('.recommendation-form');
+  // Asignación de eventos a elementos DOM
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const title = this.shadowRoot.querySelector('#title').value;
@@ -137,6 +171,7 @@ class DataCrud extends HTMLElement {
         // Nuevo: Manejador de eventos para botones de eliminar
         const deleteButtons = this.shadowRoot.querySelectorAll('.delete-btn');
         deleteButtons.forEach(button => {
+  // Asignación de eventos a elementos DOM
             button.addEventListener('click', (e) => {
                 const id = parseInt(e.target.dataset.id);
                 this.deleteRecommendation(id);
@@ -148,12 +183,14 @@ class DataCrud extends HTMLElement {
         const newId = this.recommendations.length + 1;
         this.recommendations.push({ id: newId, title, description });
         this.saveToLocalStorage();
+  // Renderiza el contenido del componente
         this.render();
     }
 
     deleteRecommendation(id) {
         this.recommendations = this.recommendations.filter(rec => rec.id !== id);
         this.saveToLocalStorage();
+  // Renderiza el contenido del componente
         this.render();
     }
 
