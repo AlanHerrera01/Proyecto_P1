@@ -40,63 +40,69 @@ this.shadowRoot.appendChild(style);
     // Array de objetos con información principal sobre PM2.5
     this.content = [
       {
-        titulo: "¿Qué es el PM2.5?",
-        texto: "Son partículas muy pequeñas que penetran profundamente en los pulmones y el sistema circulatorio.",
-        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        alt: "Contaminación ambiental"
+      titulo: "¿Qué es el PM2.5 y PM10?",
+      texto: "El PM2.5 y PM10 son partículas microscópicas suspendidas en el aire. El PM2.5 tiene un diámetro menor a 2.5 micras y el PM10 menor a 10 micras. Ambas pueden penetrar en el sistema respiratorio, pero el PM2.5 llega más profundo y es más dañino para la salud. Estas partículas pueden estar compuestas de polvo, hollín, metales pesados y compuestos orgánicos.",
+      img: "img/1.webp",
+      alt: "Contaminación ambiental"
       },
       {
-        titulo: "Efectos en la salud",
-        texto: "La exposición prolongada puede causar problemas respiratorios, cardiovasculares y aumentar la mortalidad.",
-        img: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80",
-        alt: "Salud pulmonar"
+      titulo: "Efectos en la salud",
+      texto: "La exposición prolongada a PM2.5 y PM10 puede causar problemas respiratorios, cardiovasculares y aumentar la mortalidad. El PM2.5 es especialmente peligroso por su capacidad de ingresar al torrente sanguíneo. Estudios han demostrado que los niños y adultos mayores son los más vulnerables, y la contaminación puede agravar enfermedades como el asma y la bronquitis.",
+      img: "img/2.png",
+      alt: "Salud pulmonar"
       },
       {
-        titulo: "¿Cómo protegerse?",
-        texto: "Usar mascarillas, evitar actividades al aire libre en días contaminados y mantener buena ventilación.",
-        img: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        alt: "Persona usando mascarilla"
+      titulo: "¿Cómo protegerse?",
+      texto: "Usar mascarillas, evitar actividades al aire libre en días contaminados y mantener buena ventilación ayuda a reducir la exposición tanto a PM2.5 como a PM10. Además, el uso de purificadores de aire con filtros HEPA en interiores puede disminuir significativamente la concentración de partículas nocivas.",
+      img: "img/3.jpg",
+      alt: "Persona usando mascarilla"
       },
       {
-        titulo: "¿Dónde se mide el PM2.5?",
-        texto: "Se mide en estaciones de monitoreo ambiental y con sensores personales. Consulta los índices de calidad del aire en tu ciudad.",
-        img: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
-        alt: "Estación de monitoreo ambiental"
+      titulo: "¿Dónde se mide el PM2.5 y PM10?",
+      texto: "Se mide en estaciones de monitoreo ambiental y con sensores personales. Consulta los índices de calidad del aire en tu ciudad para ambos tipos de partículas. Algunas ciudades publican estos datos en tiempo real a través de aplicaciones móviles y sitios web oficiales.",
+      img: "img/4.jpg",
+      alt: "Estación de monitoreo ambiental"
       },
       {
-        titulo: "Monitoreo en Tiempo Real",
-        texto: "Las tecnologías modernas permiten monitorear la calidad del aire en tiempo real. Utiliza apps y dispositivos inteligentes para mantenerte informado.",
-        img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80",
-        alt: "Tecnología de monitoreo"
+      titulo: "Monitoreo en Tiempo Real",
+      texto: "Las tecnologías modernas permiten monitorear la calidad del aire en tiempo real, tanto para PM2.5 como para PM10. Utiliza apps y dispositivos inteligentes para mantenerte informado. Algunos sensores pueden integrarse en sistemas de domótica para activar alertas o purificadores automáticamente.",
+      img: "img/5.jpg",
+      alt: "Tecnología de monitoreo"
       },
       {
-        titulo: "Impacto en Ecosistemas",
-        texto: "El PM2.5 no solo afecta a los humanos, también daña la vegetación y los ecosistemas acuáticos, alterando el equilibrio ambiental.",
-        img: "https://images.unsplash.com/photo-1500252185289-40708b7a5190?auto=format&fit=crop&w=400&q=80",
-        alt: "Ecosistema afectado"
+      titulo: "Impacto en Ecosistemas",
+      texto: "El PM2.5 y PM10 no solo afectan a los humanos, también dañan la vegetación y los ecosistemas acuáticos, alterando el equilibrio ambiental. Las partículas pueden depositarse en hojas, reducir la fotosíntesis y contaminar cuerpos de agua, afectando la biodiversidad.",
+      img: "img/6.jpg",
+      alt: "Ecosistema afectado"
       },
       {
-        titulo: "Soluciones Urbanas",
-        texto: "Las ciudades inteligentes implementan zonas verdes, restricciones vehiculares y tecnologías limpias para reducir la contaminación.",
-        img: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=400&q=80",
-        alt: "Ciudad sostenible"
+      titulo: "Soluciones Urbanas",
+      texto: "Las ciudades inteligentes implementan zonas verdes, restricciones vehiculares y tecnologías limpias para reducir la contaminación por PM2.5 y PM10. Además, la promoción del transporte público y el uso de energías renovables son estrategias clave para mejorar la calidad del aire.",
+      img: "img/7.jpeg",
+      alt: "Ciudad sostenible"
+      },
+      {
+      titulo: "Curiosidades sobre PM2.5 y PM10",
+      texto: "¿Sabías que el PM2.5 puede viajar cientos de kilómetros desde su fuente de origen? Incluso puede cruzar continentes transportado por el viento. Además, la Organización Mundial de la Salud estima que la contaminación por partículas finas causa millones de muertes prematuras cada año.",
+      img: "img/8.jpeg",
+      alt: "Curiosidades sobre partículas"
       }
     ];
 
     // Array de objetos para la galería de soluciones
     this.gallery = [
       {
-        img: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b",
+        img: "img/Mascarillas N95.jpeg",
         title: "Mascarillas N95",
         description: "Protección efectiva contra partículas PM2.5"
       },
       {
-        img: "https://images.unsplash.com/photo-1599687267812-75c487d09d55",
+        img: "img/Purificadores.webp",
         title: "Purificadores de Aire",
         description: "Tecnología HEPA para interiores"
       },
       {
-        img: "https://images.unsplash.com/photo-1573511860302-28c524319d2a",
+        img: "img/Sensores.jpg",
         title: "Sensores Personales",
         description: "Monitoreo individual de calidad del aire"
       }

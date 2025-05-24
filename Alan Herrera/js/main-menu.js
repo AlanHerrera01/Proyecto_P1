@@ -93,17 +93,23 @@ class MainMenu extends HTMLElement {
     this.setupNavigation();
   }
 
-  setupNavigation() {
-    const content = this.shadowRoot.getElementById("content");
+    setupNavigation() {
+      const content = this.shadowRoot.getElementById("content");
 
-    this.shadowRoot.getElementById("inicioBtn").onclick = () => {
-      content.innerHTML = `
-        <div class="card-welcome">
-          <h2>Bienvenido al Proyecto Unificado</h2>
-          <p>Selecciona una sección del menú para comenzar a explorar los módulos disponibles.</p>
-        </div>
-      `;
-    };
+      this.shadowRoot.getElementById("inicioBtn").onclick = () => {
+        content.innerHTML = `
+          <div class="card-welcome">
+            <h2>Bienvenido al Proyecto Unificado</h2>
+            <p>Selecciona una sección del menú para comenzar a explorar los módulos disponibles.</p>
+            <ul style="text-align:left; margin: 2rem auto; max-width: 500px;">
+              <li><strong>Educación:</strong> Accede a recursos y materiales educativos sobre calidad del aire y su impacto.</li>
+              <li><strong>CRUD:</strong> Gestiona datos relevantes y recomendaciones personalizadas para los usuarios.</li>
+              <li><strong>Calidad Aire:</strong> Visualiza información en tiempo real y gráficos sobre la calidad del aire.</li>
+            </ul>
+            <p style="color:#888; font-size:0.95em;">Este proyecto integra diferentes módulos para ofrecerte una experiencia completa y educativa sobre el medio ambiente.</p>
+          </div>
+        `;
+      };
 
     this.shadowRoot.getElementById("educacionBtn").onclick = () => {
       content.innerHTML = "";
