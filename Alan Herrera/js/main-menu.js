@@ -120,9 +120,7 @@ class MainMenu extends HTMLElement {
     this.shadowRoot.getElementById("crudBtn").onclick = () => {
       content.innerHTML = "";
       const crud = document.createElement("data-crud");
-      const crud2 = document.createElement("user-recommendations");
       content.appendChild(crud);
-      content.appendChild(crud2);
     };
 
     this.shadowRoot.getElementById("aireBtn").onclick = () => {
