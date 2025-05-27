@@ -6,6 +6,7 @@ class DataCrud extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.editingId = null; // Añadimos variable para controlar el modo edición
 
 
 // Insertamos estilos modernos al componente
@@ -42,7 +43,7 @@ this.shadowRoot.appendChild(style);
   // Renderiza el contenido del componente
         this.render();
   // Asignación de eventos a elementos DOM
-        this.addEventListeners();
+        this.addEventListeners(); // Cambiamos setupEventListeners por addEventListeners
     }
 
   // Renderiza el contenido del componente
@@ -128,29 +129,39 @@ this.shadowRoot.appendChild(style);
                 .recommendation-item:hover {
                     transform: translateY(-2px);
                 }
+                .edit-btn {
+                    background: #ffc107;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 8px 16px;
+                    margin-right: 8px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                .edit-btn:hover {
+                    background: #e0a800;
+                }
             </style>
             <div class="crud-container">
                 <h2>Recomendaciones de Protección</h2>
                 <form class="recommendation-form">
                     <input type="text" id="title" placeholder="Título" required>
                     <textarea id="description" placeholder="Descripción" required></textarea>
-                    <button type="submit">Agregar Recomendación</button>
+                    <button type="submit">${this.editingId ? 'Actualizar' : 'Agregar'} Recomendación</button>
                 </form>
-                <ul class="recommendation-list">
+                <div class="recommendations-list">
                     ${this.recommendations.map(rec => `
-                        <li class="recommendation-item" data-id="${rec.id}">
-                            <div>
-                                <h3>${rec.title}</h3>
-                                <p>${rec.description}</p>
+                        <div class="recommendation-card">
+                            <h3>${rec.title}</h3>
+                            <p>${rec.description}</p>
+                            <div class="actions">
+                                <button class="edit-btn" data-id="${rec.id}">Editar</button>
+                                <button class="delete-btn" data-id="${rec.id}">Eliminar</button>
                             </div>
-                            <div>
-                                <button class="delete-btn" data-id="${rec.id}">
-                                    Eliminar
-                                </button>
-                            </div>
-                        </li>
+                        </div>
                     `).join('')}
-                </ul>
+                </div>
             </div>
         `;
     }
@@ -158,40 +169,82 @@ this.shadowRoot.appendChild(style);
   // Asignación de eventos a elementos DOM
     addEventListeners() {
         const form = this.shadowRoot.querySelector('.recommendation-form');
-  // Asignación de eventos a elementos DOM
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const title = this.shadowRoot.querySelector('#title').value;
-            const description = this.shadowRoot.querySelector('#description').value;
+            e.preventDefault(); // Previene el comportamiento por defecto
             
-            this.addRecommendation(title, description);
-            form.reset();
+            const title = this.shadowRoot.querySelector('#title').value.trim();
+            const description = this.shadowRoot.querySelector('#description').value.trim();
+            
+            if (!title || !description) return; // Validación básica
+            
+            if (this.editingId) {
+                this.updateRecommendation(this.editingId, title, description);
+                this.editingId = null;
+            } else {
+                this.addRecommendation(title, description);
+            }
+            
+            // Limpiamos el formulario de manera controlada
+            this.shadowRoot.querySelector('#title').value = '';
+            this.shadowRoot.querySelector('#description').value = '';
+            
+            // Mensaje de confirmación
+            const button = form.querySelector('button[type="submit"]');
+            const originalText = button.textContent;
+            button.textContent = '¡Guardado!';
+            button.style.background = '#28a745';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '#0066cc';
+            }, 1500);
         });
 
-        // Nuevo: Manejador de eventos para botones de eliminar
-        const deleteButtons = this.shadowRoot.querySelectorAll('.delete-btn');
-        deleteButtons.forEach(button => {
-  // Asignación de eventos a elementos DOM
-            button.addEventListener('click', (e) => {
+        // Manejadores para botones editar y eliminar
+        this.shadowRoot.addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-btn')) {
                 const id = parseInt(e.target.dataset.id);
                 this.deleteRecommendation(id);
-            });
+            } else if (e.target.classList.contains('edit-btn')) {
+                const id = parseInt(e.target.dataset.id);
+                this.startEditing(id);
+            }
         });
+    }
+
+    startEditing(id) {
+        const recommendation = this.recommendations.find(rec => rec.id === id);
+        if (recommendation) {
+            this.editingId = id;
+            const titleInput = this.shadowRoot.querySelector('#title');
+            const descriptionInput = this.shadowRoot.querySelector('#description');
+            titleInput.value = recommendation.title;
+            descriptionInput.value = recommendation.description;
+        }
+    }
+
+    updateRecommendation(id, title, description) {
+        this.recommendations = this.recommendations.map(rec =>
+            rec.id === id ? { ...rec, title, description } : rec
+        );
+        this.saveToLocalStorage();
+        this.render();
+        this.addEventListeners(); // <-- Añade esto
     }
 
     addRecommendation(title, description) {
         const newId = this.recommendations.length + 1;
         this.recommendations.push({ id: newId, title, description });
         this.saveToLocalStorage();
-  // Renderiza el contenido del componente
         this.render();
+        this.addEventListeners(); // <-- Añade esto
     }
 
     deleteRecommendation(id) {
         this.recommendations = this.recommendations.filter(rec => rec.id !== id);
         this.saveToLocalStorage();
-  // Renderiza el contenido del componente
         this.render();
+        this.addEventListeners(); // <-- Añade esto
     }
 
     // Nuevo método para guardar en localStorage
