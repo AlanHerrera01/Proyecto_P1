@@ -132,12 +132,12 @@ export class AirQualityService {
         return { hours, pm25, pm10 };
     }*/
 
-    static getAQILevel(aqiValue) {
-        if (aqiValue <= 50) return 'good';
-        if (aqiValue <= 100) return 'moderate';
-        if (aqiValue <= 150) return 'unhealthy-sensitive';
-        if (aqiValue <= 200) return 'unhealthy';
-        if (aqiValue <= 300) return 'very-unhealthy';
-        return 'hazardous';
+        static getAQILevel(aqiValue) {
+        if (aqiValue <= 50) return 'Bueno';
+        if (aqiValue <= 100) return 'Moderado';
+        if (aqiValue <= 150) return 'Dañino para sensibles';
+        if (aqiValue <= 200) return 'Dañino';
+        if (aqiValue <= 300) return 'Muy dañino';
+        return 'Peligroso';
     }
 }
